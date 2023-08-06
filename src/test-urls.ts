@@ -13,7 +13,7 @@ const isFailure = (res: Success | Failure): res is Failure => {
 
 export const testUrls = async (
   urls: string[]
-): Promise<{results: Array<Success | Failure>; failures: Array<Failure>}> => {
+): Promise<{results: (Success | Failure)[]; failures: Failure[]}> => {
   const results = await Promise.all(
     urls.map(async url =>
       limit(async () =>
