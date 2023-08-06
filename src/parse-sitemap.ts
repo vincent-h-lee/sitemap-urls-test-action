@@ -1,6 +1,8 @@
-import Sitemapper from 'sitemapper'
+import Sitemapper, {SitemapperResponse} from 'sitemapper'
 
-export const parseSitemap = (url: string) => {
+export const parseSitemap = async (
+  url: string
+): Promise<SitemapperResponse> => {
   const sitemapper = new Sitemapper({
     url
   })

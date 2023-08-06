@@ -11,10 +11,12 @@ const isFailure = (res: Success | Failure): res is Failure => {
   return !res.success
 }
 
-export const testUrls = async (urls: string[]) => {
+export const testUrls = async (
+  urls: string[]
+): Promise<{results: Array<Success | Failure>; failures: Array<Failure>}> => {
   const results = await Promise.all(
-    urls.map(url =>
-      limit(() =>
+    urls.map(async url =>
+      limit(async () =>
         superagent
           .get(url)
           .then(res => {
