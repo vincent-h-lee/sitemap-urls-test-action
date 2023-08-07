@@ -4,12 +4,17 @@
 
 Test that each URL in your sitemap exists and loads with a success code.
 
+## Use Case
+
+- Test sitemap URLs as a CI step
+- Sanity check for production site's URLs on deploy or on a schedule
+
 ## Usage
 
 ```
 - uses: vincent-h-lee/sitemap-urls-test-action@latest
     with:
-      sitemap_url: https://leevincenth.com/sitemap.xml
+      sitemap_url: https://leevincenth.com/sitemap.xml # or http://localhost:3000/sitemap.xml
 ```
 
 ## Contributing
