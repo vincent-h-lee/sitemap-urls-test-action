@@ -1,8 +1,6 @@
 name: version
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 jobs:
   bump:
     runs-on: ubuntu-latest
