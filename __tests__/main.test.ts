@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import * as main from '../src/index'
+import * as main from '../src/main'
 import {expect, test} from '@jest/globals'
 import * as parseSitemap from '../src/parse-sitemap'
 import {setupServer} from 'msw/node'
