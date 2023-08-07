@@ -1,29 +1,76 @@
-import {wait} from '../src/wait'
-import * as process from 'process'
-import * as cp from 'child_process'
-import * as path from 'path'
+import * as core from '@actions/core'
+import * as main from '../src/main'
 import {expect, test} from '@jest/globals'
+import * as parseSitemap from '../src/parse-sitemap'
+import {setupServer} from 'msw/node'
+import {rest} from 'msw'
 
-test('throws invalid number', async () => {
-  const input = parseInt('foo', 10)
-  await expect(wait(input)).rejects.toThrow('milliseconds not a number')
-})
+describe('main', () => {
+  const sitemapUrl = 'https://www.example.com/sitemap.xml'
+  jest.spyOn(core, 'getInput').mockImplementation(() => sitemapUrl)
+  const setOutputSpy = jest.spyOn(core, 'setOutput')
+  const failedSpy = jest.spyOn(core, 'setFailed')
+  const server = setupServer()
 
-test('wait 500 ms', async () => {
-  const start = new Date()
-  await wait(500)
-  const end = new Date()
-  var delta = Math.abs(end.getTime() - start.getTime())
-  expect(delta).toBeGreaterThan(450)
-})
+  beforeAll(() => server.listen())
 
-// shows how the runner will run a javascript action with env / stdout protocol
-test('test runs', () => {
-  process.env['INPUT_MILLISECONDS'] = '500'
-  const np = process.execPath
-  const ip = path.join(__dirname, '..', 'lib', 'main.js')
-  const options: cp.ExecFileSyncOptions = {
-    env: process.env
-  }
-  console.log(cp.execFileSync(np, [ip], options).toString())
+  afterEach(() => {
+    jest.clearAllMocks()
+    server.resetHandlers()
+  })
+
+  afterAll(() => server.close())
+
+  test('passes teh action and sets output when sitemap urls all pass', async () => {
+    jest.spyOn(parseSitemap, 'parseSitemap').mockResolvedValue({
+      url: '',
+      errors: [],
+      sites: ['https://example.com/a', 'https://example.com/b']
+    })
+    server.use(
+      rest.get('https://example.com/*', (_req, res, ctx) => {
+        return res(ctx.status(200))
+      })
+    )
+
+    await main.run()
+
+    expect(failedSpy).toBeCalledTimes(0)
+    expect(setOutputSpy).toBeCalledWith('urls_tested', 2)
+    expect(setOutputSpy).toBeCalledWith('urls_passed', 2)
+    expect(setOutputSpy).toBeCalledWith('urls_failed', 0)
+  })
+
+  test('fails the action when no urls returned from sitemap', async () => {
+    jest.spyOn(parseSitemap, 'parseSitemap').mockResolvedValue({
+      url: '',
+      errors: [],
+      sites: []
+    })
+
+    await main.run()
+    expect(failedSpy).toBeCalledTimes(1)
+    expect(failedSpy).toBeCalledWith('SitemapError: no urls in sitemap')
+  })
+
+  test('fails the action and sets output when a single url 400s', async () => {
+    jest.spyOn(parseSitemap, 'parseSitemap').mockResolvedValue({
+      url: '',
+      errors: [],
+      sites: ['https://example.com/a', 'https://example.com/b']
+    })
+
+    server.use(
+      rest.get('https://example.com/a', (_req, res, ctx) => {
+        return res(ctx.status(200))
+      }),
+      rest.get('https://example.com/b', (_req, res, ctx) => {
+        return res(ctx.status(400))
+      })
+    )
+
+    await main.run()
+    expect(failedSpy).toBeCalledTimes(1)
+    expect(failedSpy).toBeCalledWith('SitemapTestFailed')
+  })
 })
