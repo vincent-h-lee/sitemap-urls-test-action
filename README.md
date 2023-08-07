@@ -1,3 +1,5 @@
+![build and test workflow](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+
 # Sitemap Urls Test Action
 
 Test that each URL in your sitemap exists and loads with a success code.
