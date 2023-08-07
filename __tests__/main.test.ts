@@ -1,15 +1,20 @@
-import * as core from '@actions/core'
+const setOutputSpy = jest.fn() // need to hoist these
+const failedSpy = jest.fn()
 import * as main from '../src/main'
 import {expect, test} from '@jest/globals'
 import * as parseSitemap from '../src/parse-sitemap'
 import {setupServer} from 'msw/node'
 import {rest} from 'msw'
 
+const SITEMAP_URL = 'https://www.example.com/sitemap.xml'
+jest.mock('@actions/core', () => ({
+  ...jest.requireActual('@actions/core'),
+  getInput: jest.fn().mockImplementation(() => SITEMAP_URL),
+  setOutput: setOutputSpy,
+  setFailed: failedSpy
+}))
+
 describe('main', () => {
-  const sitemapUrl = 'https://www.example.com/sitemap.xml'
-  jest.spyOn(core, 'getInput').mockImplementation(() => sitemapUrl)
-  const setOutputSpy = jest.spyOn(core, 'setOutput')
-  const failedSpy = jest.spyOn(core, 'setFailed')
   const server = setupServer()
 
   beforeAll(() => server.listen())
