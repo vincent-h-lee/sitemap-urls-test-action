@@ -25,7 +25,7 @@ Test that each URL in your sitemap exists and loads with a success code.
 
 ## Outputs
 
-| Input       | Type   | Description                 |
+| Output      | Type   | Description                 |
 | ----------- | ------ | --------------------------- |
 | urls_tested | number | Total count of URLs tested. |
 | urls_passed | number | Count of URLs that passed.  |
