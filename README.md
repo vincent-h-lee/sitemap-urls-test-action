@@ -17,6 +17,12 @@ Test that each URL in your sitemap exists and loads with a success code.
       sitemap_url: https://leevincenth.com/sitemap.xml # or http://localhost:3000/sitemap.xml
 ```
 
+## Inputs
+
+| Input       | Required | Description                          |
+| ----------- | -------- | ------------------------------------ |
+| sitemap_url | Yes      | URL of the sitemap you want to test. |
+
 ## Contributing
 
 Install the dependencies
