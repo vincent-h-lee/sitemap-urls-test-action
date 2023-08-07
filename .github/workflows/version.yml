@@ -16,5 +16,4 @@ jobs:
         tag-prefix:  'v'
         minor-wording:  'MINOR,feat,chore,build,ci,docs,style'
         major-wording:  'MAJOR,cut-major'
-        patch-wording:  'fix,fixes,patch' 
         check-last-commit-only: false
