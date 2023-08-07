@@ -19,9 +19,17 @@ Test that each URL in your sitemap exists and loads with a success code.
 
 ## Inputs
 
-| Input       | Required | Description                          |
-| ----------- | -------- | ------------------------------------ |
-| sitemap_url | Yes      | URL of the sitemap you want to test. |
+| Input       | Type   | Required | Description                          |
+| ----------- | ------ | -------- | ------------------------------------ |
+| sitemap_url | string | Yes      | URL of the sitemap you want to test. |
+
+## Outputs
+
+| Input       | Type   | Description                 |
+| ----------- | ------ | --------------------------- |
+| urls_tested | number | Total count of URLs tested. |
+| urls_passed | number | Count of URLs that passed.  |
+| urls_failed | number | Count of URLs that failed.  |
 
 ## Contributing
 
