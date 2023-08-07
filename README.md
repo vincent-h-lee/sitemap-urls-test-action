@@ -2,6 +2,14 @@
 
 Test that each URL in your sitemap exists and loads with a success code.
 
+## Usage
+
+```
+- uses: vincent-h-lee/sitemap-urls-test-action@latest
+    with:
+      sitemap_url: https://leevincenth.com/sitemap.xml
+```
+
 ## Contributing
 
 Install the dependencies
