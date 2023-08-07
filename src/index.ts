@@ -6,7 +6,7 @@ export async function run(): Promise<void> {
   try {
     const sitemapUrl = core.getInput('sitemap_url', {required: true})
 
-    core.debug(`Fetching sitemap at ${sitemapUrl}`)
+    core.info(`Fetching sitemap at ${sitemapUrl}`)
     const {sites: urls, errors} = await parseSitemap(sitemapUrl)
 
     if (errors.length) {
@@ -17,10 +17,10 @@ export async function run(): Promise<void> {
       throw new Error(`SitemapError: no urls in sitemap`)
     }
 
-    core.debug(`Testing ${urls.length} sites`)
+    core.info(`Testing ${urls.length} sites`)
     const {results, failures} = await testUrls(urls)
     results.forEach(({url, success}) => {
-      core.debug(`${success ? 'Pass' : 'Fail'} - ${url}`)
+      core.info(`${success ? 'Pass' : 'Fail'} - ${url}`)
     })
 
     core.setOutput('urls_tested', results.length)
@@ -28,9 +28,9 @@ export async function run(): Promise<void> {
     core.setOutput('urls_failed', failures.length)
 
     if (failures.length > 0) {
-      core.debug(`Failed - ${failures.length} sites`)
+      core.info(`Failed - ${failures.length} sites`)
       failures.forEach(({url, error}) => {
-        core.debug(`${url} ${error.message}`)
+        core.info(`${url} ${error.message}`)
       })
       throw new Error('SitemapTestFailed')
     }
