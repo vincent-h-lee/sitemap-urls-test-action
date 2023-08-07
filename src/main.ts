@@ -19,7 +19,6 @@ export async function run(): Promise<void> {
 
     core.debug(`Testing ${urls.length} sites`)
     const {results, failures} = await testUrls(urls)
-    console.log(results, failures)
     results.forEach(({url, success}) => {
       core.debug(`${success ? 'Pass' : 'Fail'} - ${url}`)
     })
@@ -36,7 +35,6 @@ export async function run(): Promise<void> {
       throw new Error('SitemapTestFailed')
     }
   } catch (error) {
-    console.log('error', error)
     if (error instanceof Error) {
       core.setFailed(error.message)
       return
