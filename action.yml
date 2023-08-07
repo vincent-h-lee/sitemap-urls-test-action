@@ -1,6 +1,9 @@
 name: 'Sitemap URLs Test Action'
 description: 'Test that each URL in your sitemap exists and loads with a success code.'
 author: 'Vincent Lee'
+branding:
+  icon: check-circle
+  color: green
 inputs:
   sitemap_url:
     required: true
