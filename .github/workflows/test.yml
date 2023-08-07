@@ -26,4 +26,4 @@ jobs:
           npm run build
       - uses: ./
         with:
-          sitemap_url: https://www.millandcommons.com/sitemap.xml
+          sitemap_url: https://leevincenth.com/sitemap.xml
