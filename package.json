@@ -28,7 +28,7 @@
     "@actions/core": "^1.10.0",
     "p-limit": "^3.1.0",
     "sitemapper": "^3.2.6",
-    "superagent": "^8.0.9"
+    "superagent": "^8.1.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
