@@ -5,7 +5,7 @@ jobs:
   bump:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name:  'Automated Version Bump'
       uses:  'phips28/gh-action-bump-version@v10.0.1'
       env:
